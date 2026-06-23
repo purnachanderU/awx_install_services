@@ -1,0 +1,16 @@
+---
+- name: Install Nginx
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Nginx on Amazon Linux/RHEL
+      yum:
+        name: nginx
+        state: present
+
+    - name: Start Nginx Service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
