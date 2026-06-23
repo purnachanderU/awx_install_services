@@ -1,0 +1,32 @@
+---
+- name: Install and Configure HTTPD
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install HTTPD
+      yum:
+        name: httpd
+        state: present
+
+    - name: Copy HTTPD configuration
+      copy:
+        src: httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Restart HTTPD
+
+    - name: Ensure HTTPD service is running
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: Restart HTTPD
+      service:
+        name: httpd
+        state: restarted
