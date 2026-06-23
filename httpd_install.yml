@@ -9,17 +9,14 @@
         name: httpd
         state: present
 
-    - name: Copy HTTPD configuration
+    - name: Create test index page
       copy:
-        src: httpd.conf
-        dest: /etc/httpd/conf/httpd.conf
-        owner: root
-        group: root
-        mode: '0644'
+        content: "Welcome from AWX"
+        dest: /var/www/html/index.html
       notify:
         - Restart HTTPD
 
-    - name: Ensure HTTPD service is running
+    - name: Start HTTPD
       service:
         name: httpd
         state: started
